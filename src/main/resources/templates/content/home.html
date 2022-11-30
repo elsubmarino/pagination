@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:with="result=${result.result}">
+    <table>
+        <tr th:each="item : ${result.content}">
+            <td th:text="${item.no}"></td>
+            <td th:text="${item.title}"></td>
+        </tr>
+    </table>
+</div>
+<th:block>
+    <ul class="pagination">
+        <li th:if="${result.prevPage}">
+            <a th:href="${result.prevPage.pageNumber}+1">prev</a>
+        </li>
+        <li th:each="item:${result.pageList}">
+            <a th:href="${item.pageNumber}+1">
+                [[${item.pageNumber}+1]]
+            </a>
+        </li>
+        <li th:if="${result.nextPage}">
+            <a th:href="${result.nextPage.pageNumber}+1">next</a>
+        </li>
+    </ul>
+</th:block>
+<form id='f1' th:action="@{get}" method="get">
+    <input type='hidden' name='page' th:value=${result.currentPageNum}>
+    <input type='hidden' name='size' th:value=${result.currentPage.pageSize}>
+    <input type='hidden' name='type' th:value=${pageVO.type}>
+    <input type='hidden' name='keyword' th:value=${pageVO.keyword}>
+</form>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        $(document).ready(function() {
+            var formObj = $("#f1");
+
+            $(".pagination a").click(function(e) {
+
+                e.preventDefault();
+
+                formObj.find('[name="page"]').val($(this).attr('href'));
+
+                formObj.submit();
+            });
+
+            $(".boardLink").click(function(e){
+
+                e.preventDefault();
+
+                var boardNo = $(this).attr("href");
+
+                formObj.attr("action",[[@{'/boards/view'}]]);
+                formObj.append("<input type='hidden' name='bno' value='" + boardNo +"'>" );
+
+                formObj.submit();
+
+            });
+
+            $("#searchBtn").click(function(e){
+
+                var typeStr = $("#searchType").find(":selected").val();
+                var keywordStr = $("#searchKeyword").val();
+
+                console.log(typeStr, "" , keywordStr);
+
+                formObj.find("[name='type']").val(typeStr);
+                formObj.find("[name='keyword']").val(keywordStr);
+                formObj.find("[name='page']").val("1");
+                formObj.submit();
+            });
+
+        });
+    </script>
+</th:block>
+</body>
+</html>
