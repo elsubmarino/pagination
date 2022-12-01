@@ -24,7 +24,7 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
 export default {
   name: 'BoardComponent',
@@ -34,7 +34,7 @@ export default {
     };
   },
   methods:{
-    async getList(page) {
+    async getList(page: number) {
       await axios.get('/api/board/list',{
         params:{
           page:page,
