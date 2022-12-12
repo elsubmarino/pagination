@@ -1,7 +1,7 @@
 <template>
   <table>
-    <tbody v-if="result != null">
-    <tr  v-for="(item, index) in result.content" v-bind:key="index">
+    <tbody v-if="result.pageList.length > 0">
+    <tr  v-for="(item, index) in result.result.content" v-bind:key="index">
       <td>
         {{ item.no }}
       </td>
@@ -25,34 +25,24 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
 import axios from 'axios';
-
+import {defineComponent} from 'vue';
 
 export default defineComponent({
-  name:'BoardComponent',
+  name: 'BoardComponent',
   data() {
-    return {
-      result: {
-        content: {
-          no: '',
-          title: ''
-        },
-        prevPage: {
+    return{
+      result:{
+        prevPage:{
           pageNumber:0,
         },
         nextPage:{
           pageNumber:0,
         },
-        pageList:
-          [
-            {
-              pageNumber: 0
-            },
-          ],
-        }
+        pageList:[],
       }
-    },
+    };
+  },
   methods:{
     async getList(page: number) {
       await axios.get('/api/board/list',{
@@ -69,39 +59,6 @@ export default defineComponent({
     this.getList(1);
   },
 })
-// export default {
-//   name: 'BoardComponent',
-//   data() {
-//     return{
-//       result:{
-//         content:{
-//           no:'',
-//           title:''
-//         },
-//         prevPage:{
-//           pageNumber:{
-//
-//           }
-//         }
-//       }
-//     };
-//   },
-//   methods:{
-//     async getList(page: number) {
-//       await axios.get('/api/board/list',{
-//         params:{
-//           page:page,
-//           size:10
-//         }
-//       })
-//           .then(response => this.result=response.data)
-//           .catch(error => console.log(error));
-//     }
-//   },
-//   mounted() {
-//     this.getList(1);
-//   },
-// }
 </script>
 
 <style scoped>

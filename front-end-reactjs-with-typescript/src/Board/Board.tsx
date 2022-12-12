@@ -10,11 +10,14 @@ interface resultTypes {
 
 const Board: React.FC = () => {
     const [result, setResult] = useState<resultTypes>({content: [], prevPage: null, nextPage: null, pageList: []})
+    const [searchOption, setSearchOption] = useState<string>('');
 
     const getList = (page: number) => {
         axios.get('/api/board/list', {
             params: {
                 page: page,
+                // searchOption: searchOption,
+                // searchText: searchText,
                 size: 10
             }
         })
@@ -30,6 +33,12 @@ const Board: React.FC = () => {
 
     return (
         <>
+            <select name={"searchOption"}>
+                <option>제목</option>
+                <option>내용</option>
+            </select>
+            <input type={"text"} name={"searchText"}/>
+            <button name={"searchButton"} onClick={()=>getList(1)}>검색</button>
             <table>
                 <tbody>
                 {result.content.length > 0 ? result.content.map((data: any, index: number) => {
