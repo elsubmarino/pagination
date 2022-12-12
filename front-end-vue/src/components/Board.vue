@@ -1,6 +1,6 @@
 <template>
   <table>
-    <tbody v-if="result != ''">
+    <tbody v-if="result.pageList.length > 0">
     <tr  v-for="(item, index) in result.result.content" v-bind:key="index">
       <td>
         {{ item.no }}
@@ -26,11 +26,21 @@
 
 <script lang="ts">
 import axios from 'axios';
-export default {
+import {defineComponent} from 'vue';
+
+export default defineComponent({
   name: 'BoardComponent',
   data() {
     return{
-      result:''
+      result:{
+        prevPage:{
+          pageNumber:0,
+        },
+        nextPage:{
+          pageNumber:0,
+        },
+        pageList:[],
+      }
     };
   },
   methods:{
@@ -48,7 +58,7 @@ export default {
   mounted() {
     this.getList(1);
   },
-}
+})
 </script>
 
 <style scoped>
