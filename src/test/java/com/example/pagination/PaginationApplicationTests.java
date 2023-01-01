@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class PaginationApplicationTests {
@@ -20,22 +21,9 @@ class PaginationApplicationTests {
 
     @Test
     public void test(){
-        String[]babbling={"ayaye"};
-        int answer = 0;
-        String[]canSpeak={"ye"};
-        for(int i=0;i<babbling.length;i++){
-            String original=babbling[i];
-            for(int j=0;j<canSpeak.length;j++){
-                Pattern pattern = Pattern.compile(canSpeak[j]);
-                Matcher matcher = pattern.matcher(babbling[i]);
-                if(matcher.find()){
-                    babbling[i]=matcher.replaceFirst("|");
-                }
-            }
-            if(!babbling[i].equals(original) && babbling[i].replaceAll("\\|","").length() == 0){
-                answer++;
-            }
-        }
+        List<Integer> list = Arrays.stream(people).boxed().collect(Collectors.toList());
+        String test="01234123123";
+        System.out.println("asfd");
     }
 
     @Test

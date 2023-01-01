@@ -24,8 +24,8 @@ public class BoardController {
 
     @GetMapping("/api/board/list")
     public ResponseEntity<Map<String, Object>> get(@ModelAttribute PageVO pageVO){
-        Pageable page = pageVO.makePageable(0,"no");
-        Page<Board> boardIterable = boardPersistence.findAll(page);
+        Pageable page = pageVO.makePageable(0, "no");
+        Page<Board> boardIterable = boardPersistence.findAll(boardPersistence.makePredicate(pageVO.getType(),pageVO.getKeyword()),page);
         PageMaker<Board> boardResult = new PageMaker(boardIterable);
         Map<String, Object> map = new HashMap<>();
         map.put("content",boardResult.getResult().getContent());

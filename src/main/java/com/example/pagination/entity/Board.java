@@ -19,4 +19,6 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long no;
     private String title;
+
+    private String content;
 }
